@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Get app data and set webtitle according to this data
+    // Get app data and set webtitle and other data according to this data
     let webTitle = {};
     fetch("/get-data", {
         method: "GET",
