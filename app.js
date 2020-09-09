@@ -1,10 +1,12 @@
 const express = require("express");
 const mongoose = require('mongoose');
-const path = require("path");
 const bodyParser = require("body-parser");
-const Task = require("./models/task");
 const dataJSON = require("./data.json");
+const util = require("./util");
+
 require('dotenv').config();
+
+const routes = require("./routes/routes");
 
 const app = express();
 const port = process.env.PORT || "8000";
@@ -24,43 +26,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Routes
-app.get("/", (req, res) => {
-    res.status(200).sendFile(getPath("index.html"));
-});
+app.use("/", routes);
 
-app.get("/get-data", (req, res) => {
-    res.send(dataJSON);
-});
-
-app.get("/get-list", (req, res) => {
-    Task.find()
-    .then((result) => {
-        console.log("'/get-list' result:", result);
-        res.send(result);
-    })
-    .catch ((err) => {
-        console.log("Error while searching through database:", err);
-    });
-});
-
-app.post("/", (req, res) => {
-    console.log("Request body:", req.body);
-
-    const task = new Task(req.body);
-
-    task.save()
-    .then(() => {
-        res.redirect("/");
-    })
-    .catch((err) => {
-        console.log("Error while trying to save to database:", err);
-    });
-});
-
+// 404
 app.use((req, res) => {
-    res.send("404.html");
+    res.status(404).sendFile(util.getPath("views/404.html"));
 });
-
-function getPath(fileName) {
-    return __dirname + "/public/" + fileName;
-}
