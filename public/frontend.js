@@ -1,22 +1,21 @@
 document.addEventListener("DOMContentLoaded", () => {
     // Load tasks into DOM upon loading page
-    let todoList = [];
     getTasks();
     async function getTasks() {
-        const response = await fetch("/get-list");
+        const response = await fetch("/get-tasks");
         const data = await response.json();
 
         if (data.length > 0) {
+            console.log("Loading tasks into DOM");
             data.forEach(task => {
                 const li = document.createElement("li");
                 const taskName = document.createElement("span");
                 const deleteButton = document.createElement("span");
     
                 taskName.classList.add("name");
-                taskName.setAttribute("dbID", task.id);
+                taskName.setAttribute("dbID", task._id);
                 deleteButton.classList.add("delete");
     
-                console.log("Task title: " + task.title);
                 taskName.textContent = task.title;
                 deleteButton.textContent = "Delete";
     
@@ -27,14 +26,24 @@ document.addEventListener("DOMContentLoaded", () => {
             })
         }
     }
-
+    
+    // Delete tasks
     const todoListDOM = document.querySelector("#task-list ul");
 
-    // Delete tasks
     todoListDOM.addEventListener("click", e => {
         if (e.target.className == "delete") {
             const li = e.target.parentElement;
             todoListDOM.removeChild(li);
+
+            const id = e.target.parentNode.firstElementChild.getAttribute("dbID");
+            console.log(id);
+
+            deleteTask();
+            async function deleteTask() {
+                const response = await fetch("/" + id, {
+                     method: "DELETE",
+                });
+            }
         }
     });
 
@@ -53,17 +62,19 @@ document.addEventListener("DOMContentLoaded", () => {
             // Add classes
             console.log("Task title:", nameField.value);
 
-            fetch("/", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ title: nameField.value })
-            }).then(response => response.html()).then(data => {
-                console.log("Got response from server upon posting form data");
-            }).catch((error) => {
-                console.error("Error while posting form data to server:", error);
-            });
+            const title = nameField.value;
+            const data = { title };
+
+            postTask();
+            async function postTask() {
+                const response = await fetch("/", {
+                    method: "POST",
+                    header: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(data)
+                });
+            }
 
             nameField.value = "";
         } else {
