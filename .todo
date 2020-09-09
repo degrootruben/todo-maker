@@ -1,0 +1,5 @@
+- Delete functie in frontend aanpassen zodat er een delete request wordt gedaan naar de server waarop de server de post delete door Book.getByIdAndDelete
+- Alles aanpassen naar ToDo list
+- MVC en routes en controllers etc.
+- Animaties toevoegen met JavaScript en mooie overgangen etc.
+- Functie om taak af te strepen, en ook updaten met database dmv task model aan te passen met een strikethrough property
