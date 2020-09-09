@@ -1,7 +1,6 @@
 const express = require("express");
 const mongoose = require('mongoose');
 const bodyParser = require("body-parser");
-const dataJSON = require("./data.json");
 const util = require("./util");
 
 require('dotenv').config();
@@ -30,5 +29,5 @@ app.use("/", routes);
 
 // 404
 app.use((req, res) => {
-    res.status(404).sendFile(util.getPath("views/404.html"));
+    res.sendFile(util.getPath("views/404.html"));
 });

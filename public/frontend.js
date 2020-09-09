@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
             "Content-Type": "application/json"
         }
     }).then(response => response.json()).then(data => {
-        todoList = data.slice(0);
+        todoList = data;
     }).catch(err => console.log("Error when loading tasks into DOM", err));
     console.log("Data gotten from server and copied into todoList variable:", todoList);
 

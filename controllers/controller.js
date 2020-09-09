@@ -1,5 +1,6 @@
 const Task = require('../models/task');
 const util = require("../util");
+const dataJSON = require("../data.json");
 
 const index = (req, res) => {
     res.status(200).sendFile(util.getPath("views/index.html"));
