@@ -1,52 +1,34 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Get app data and set webtitle and other data according to this data
-    let webTitle = {};
-    fetch("/get-data", {
-        method: "GET",
-        header: {
-            "Content-Type": "application/json"
-        }
-    }).then(response => response.json()).then(data => {
-        webTitle = data.name;
-        console.log("Name of app:", webTitle);
-        document.title = webTitle.toString();
-        document.querySelector("#page-banner .title").textContent = webTitle;
-    }).catch(err => console.log(err));
-
     // Load tasks into DOM upon loading page
-    let todoList = [{}];
-    fetch("/get-list", {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json"
+    let todoList = [];
+    getTasks();
+    async function getTasks() {
+        const response = await fetch("/get-list");
+        const data = await response.json();
+
+        if (data.length > 0) {
+            data.forEach(task => {
+                const li = document.createElement("li");
+                const taskName = document.createElement("span");
+                const deleteButton = document.createElement("span");
+    
+                taskName.classList.add("name");
+                taskName.setAttribute("dbID", task.id);
+                deleteButton.classList.add("delete");
+    
+                console.log("Task title: " + task.title);
+                taskName.textContent = task.title;
+                deleteButton.textContent = "Delete";
+    
+                li.appendChild(taskName);
+                li.appendChild(deleteButton);
+    
+                todoListDOM.appendChild(li);
+            })
         }
-    }).then(response => response.json()).then(data => {
-        todoList = data;
-    }).catch(err => console.log("Error when loading tasks into DOM", err));
-    console.log("Data gotten from server and copied into todoList variable:", todoList);
+    }
 
     const todoListDOM = document.querySelector("#task-list ul");
-
-    if (todoList.length > 0) {
-        todoList.forEach(task => {
-            const li = document.createElement("li");
-            const taskName = document.createElement("span");
-            const deleteButton = document.createElement("span");
-
-            taskName.classList.add("name");
-            taskName.setAttribute("dbID", task.id);
-            deleteButton.classList.add("delete");
-
-            console.log("Task title: " + task.title);
-            taskName.textContent = task.title;
-            deleteButton.textContent = "Delete";
-
-            li.appendChild(taskName);
-            li.appendChild(deleteButton);
-
-            todoListDOM.appendChild(li);
-        })
-    }
 
     // Delete tasks
     todoListDOM.addEventListener("click", e => {

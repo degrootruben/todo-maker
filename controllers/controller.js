@@ -1,47 +1,33 @@
-const Task = require('../models/task');
+const Datastore = require("nedb");
 const util = require("../util");
-const dataJSON = require("../data.json");
+
+const database = new Datastore("database.db");
+database.loadDatabase();
 
 const index = (req, res) => {
     res.status(200).sendFile(util.getPath("views/index.html"));
 };
 
-const getData = (req, res) => {
-    res.send(dataJSON);
-};
-
 const getList = (req, res) => {
-    Task.find()
-    .then((result) => {
-        console.log("'/get-list' result:", result);
-        res.send(result);
-    })
-    .catch ((err) => {
-        console.log("Error while searching through database:", err);
+    database.find({}, (err, data) => {
+        if (err) {
+            res.end();
+            return;
+        }
+        res.json(data);
     });
 };
 
 const createToDo = (req, res) => {
+    const timestamp = Date.now();
+    req.body.timestamp = timestamp;
+    
+    database.insert(req.body);
     console.log("Request body:", req.body);
-
-    const task = new Task(req.body);
-
-    task.save()
-    .then(() => {
-        res.redirect("/");
-    })
-    .catch((err) => {
-        console.log("Error while trying to save to database:", err);
-    });
 };
-
-function getPath(fileName) {
-    return __dirname + "/public/" + fileName;
-}
 
 module.exports = {
     index,
-    getData,
     getList,
     createToDo
 }
