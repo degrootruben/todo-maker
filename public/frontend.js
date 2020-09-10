@@ -1,22 +1,21 @@
 document.addEventListener("DOMContentLoaded", () => {
     // Load tasks into DOM upon loading page
-    let todoList = [];
     getTasks();
     async function getTasks() {
-        const response = await fetch("/get-list");
+        const response = await fetch("/get-tasks");
         const data = await response.json();
 
         if (data.length > 0) {
+            console.log("Loading tasks into DOM");
             data.forEach(task => {
                 const li = document.createElement("li");
                 const taskName = document.createElement("span");
                 const deleteButton = document.createElement("span");
     
                 taskName.classList.add("name");
-                taskName.setAttribute("dbID", task.id);
+                taskName.setAttribute("dbID", task._id);
                 deleteButton.classList.add("delete");
     
-                console.log("Task title: " + task.title);
                 taskName.textContent = task.title;
                 deleteButton.textContent = "Delete";
     
@@ -27,46 +26,35 @@ document.addEventListener("DOMContentLoaded", () => {
             })
         }
     }
-
-    const todoListDOM = document.querySelector("#task-list ul");
-
-    // Delete tasks
-    todoListDOM.addEventListener("click", e => {
-        if (e.target.className == "delete") {
-            const li = e.target.parentElement;
-            todoListDOM.removeChild(li);
-        }
-    });
-
+    
+    
     // Add tasks to database when form is submitted
     const addForm = document.forms["add-task"];
     const nameField = addForm.querySelector("input[type='text']");
     const placeholder = nameField.getAttribute("placeholder");
-
+    
     let counter = 0;
-    addForm.addEventListener('submit', e => {
+    addForm.addEventListener('submit', async e => {
 
         if (nameField.value != "") {
             e.preventDefault();
             nameField.setAttribute("placeholder", placeholder);
+            
+            console.log("Trying to post data to server with task name:", nameField.value);
+            
+            const data = { "title": nameField.value, "time": Date.now() };
 
-            // Add classes
-            console.log("Task title:", nameField.value);
-
-            fetch("/", {
+            await fetch("/", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({ title: nameField.value })
-            }).then(response => response.html()).then(data => {
-                console.log("Got response from server upon posting form data");
-            }).catch((error) => {
-                console.error("Error while posting form data to server:", error);
-            });
-
+                body: JSON.stringify(data)
+            }).catch(err => console.log("Error while posting task to server", err));
+            
             nameField.value = "";
         } else {
+            console.log("Namefield is empty, please enter a task name");
             e.preventDefault();
             nameField.setAttribute("placeholder", "Please enter a book title...");
             counter++;
@@ -77,7 +65,22 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
     });
+    
+    // Delete tasks
+    const todoListDOM = document.querySelector("#task-list ul");
 
+    todoListDOM.addEventListener("click", e => {
+        if (e.target.className == "delete") {
+            const li = e.target.parentElement;
+            todoListDOM.removeChild(li);
+
+            const id = e.target.parentNode.firstElementChild.getAttribute("dbID");
+            console.log("ID of deleted task:", id);
+
+            fetch("/" + id, { method: "DELETE" }).catch(err => console.log("Error while trying to send delete request of task to server", err));
+        }
+    });
+    
     // Hide books when checkbox is checked
     const hideBox = document.querySelector("#hide");
 

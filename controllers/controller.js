@@ -8,7 +8,7 @@ const index = (req, res) => {
     res.status(200).sendFile(util.getPath("views/index.html"));
 };
 
-const getList = (req, res) => {
+const getTasks = (req, res) => {
     database.find({}, (err, data) => {
         if (err) {
             res.end();
@@ -18,16 +18,24 @@ const getList = (req, res) => {
     });
 };
 
-const createToDo = (req, res) => {
-    const timestamp = Date.now();
-    req.body.timestamp = timestamp;
-    
-    database.insert(req.body);
+const createTask = (req, res) => {
     console.log("Request body:", req.body);
+    database.insert(req.body);
+    res.end();
 };
+
+const deleteTask = (req, res) => {
+    database.remove({ _id: req.params.id }, {}, (err, numRemoved) => {
+        if (err) {
+            console.log("Error while deleting entry from database");
+        }
+    });
+    res.end();
+}
 
 module.exports = {
     index,
-    getList,
-    createToDo
+    getTasks,
+    createTask,
+    deleteTask
 }
