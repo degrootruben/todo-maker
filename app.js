@@ -10,8 +10,8 @@ const app = express();
 const port = process.env.PORT || "8000";
 
 app.use(express.static("public", { root: __dirname }));
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(morgan("tiny"));
 
 // Routes
