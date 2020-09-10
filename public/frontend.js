@@ -27,57 +27,34 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
     
-    // Delete tasks
-    const todoListDOM = document.querySelector("#task-list ul");
-
-    todoListDOM.addEventListener("click", e => {
-        if (e.target.className == "delete") {
-            const li = e.target.parentElement;
-            todoListDOM.removeChild(li);
-
-            const id = e.target.parentNode.firstElementChild.getAttribute("dbID");
-            console.log(id);
-
-            deleteTask();
-            async function deleteTask() {
-                const response = await fetch("/" + id, {
-                     method: "DELETE",
-                });
-            }
-        }
-    });
-
+    
     // Add tasks to database when form is submitted
     const addForm = document.forms["add-task"];
     const nameField = addForm.querySelector("input[type='text']");
     const placeholder = nameField.getAttribute("placeholder");
-
+    
     let counter = 0;
-    addForm.addEventListener('submit', e => {
+    addForm.addEventListener('submit', async e => {
 
         if (nameField.value != "") {
             e.preventDefault();
             nameField.setAttribute("placeholder", placeholder);
+            
+            console.log("Trying to post data to server with task name:", nameField.value);
+            
+            const data = { "title": nameField.value, "time": Date.now() };
 
-            // Add classes
-            console.log("Task title:", nameField.value);
-
-            const title = nameField.value;
-            const data = { title };
-
-            postTask();
-            async function postTask() {
-                const response = await fetch("/", {
-                    method: "POST",
-                    header: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(data)
-                });
-            }
-
+            await fetch("/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            }).catch(err => console.log("Error while posting task to server", err));
+            
             nameField.value = "";
         } else {
+            console.log("Namefield is empty, please enter a task name");
             e.preventDefault();
             nameField.setAttribute("placeholder", "Please enter a book title...");
             counter++;
@@ -88,7 +65,22 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
     });
+    
+    // Delete tasks
+    const todoListDOM = document.querySelector("#task-list ul");
 
+    todoListDOM.addEventListener("click", e => {
+        if (e.target.className == "delete") {
+            const li = e.target.parentElement;
+            todoListDOM.removeChild(li);
+
+            const id = e.target.parentNode.firstElementChild.getAttribute("dbID");
+            console.log("ID of deleted task:", id);
+
+            fetch("/" + id, { method: "DELETE" }).catch(err => console.log("Error while trying to send delete request of task to server", err));
+        }
+    });
+    
     // Hide books when checkbox is checked
     const hideBox = document.querySelector("#hide");
 

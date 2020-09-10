@@ -1,17 +1,18 @@
 const express = require("express");
-const bodyParser = require("body-parser");
 const util = require("./util");
+const morgan = require("morgan");
+const routes = require("./routes/routes");
+const bodyParser = require("body-parser");
 
 require('dotenv').config();
-
-const routes = require("./routes/routes");
 
 const app = express();
 const port = process.env.PORT || "8000";
 
 app.use(express.static("public", { root: __dirname }));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(morgan("tiny"));
 
 // Routes
 app.use("/", routes);

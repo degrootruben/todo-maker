@@ -19,12 +19,9 @@ const getTasks = (req, res) => {
 };
 
 const createTask = (req, res) => {
-    const timestamp = Date.now();
-    req.body.timestamp = timestamp;
-    
-    database.insert(req.body);
     console.log("Request body:", req.body);
-    res.redirect("/");
+    database.insert(req.body);
+    res.end();
 };
 
 const deleteTask = (req, res) => {
@@ -33,7 +30,7 @@ const deleteTask = (req, res) => {
             console.log("Error while deleting entry from database");
         }
     });
-    res.redirect("/");
+    res.end();
 }
 
 module.exports = {
