@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
             e.preventDefault();
             nameField.setAttribute("placeholder", placeholder);
             
-            console.log("Trying to post data to server with task name:", nameField.value);
+            console.log(`Trying to post task "${nameField.value}" to server`);
             
             const data = { "title": nameField.value, "time": Date.now() };
 
@@ -74,9 +74,11 @@ document.addEventListener("DOMContentLoaded", () => {
     todoListDOM.addEventListener("click", e => {
         if (e.target.className == "delete") {
             const id = e.target.parentNode.firstElementChild.getAttribute("dbID");
-            console.log("ID of deleted task:", id);
 
-            fetch("/" + id, { method: "DELETE" }).then(getTasks()).catch(err => console.log("Error while trying to send delete request of task to server", err));
+            fetch("/" + id, { method: "DELETE" }).then(response => {
+                console.log("Deleted task with ID of", id);
+                getTasks();
+            }).catch(err => console.log("Error while trying to send delete request of task to server", err));
         }
     });
     

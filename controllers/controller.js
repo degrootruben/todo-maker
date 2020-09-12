@@ -20,7 +20,7 @@ const getTasks = (req, res) => {
 };
 
 const createTask = (req, res) => {
-    console.log("Request body:", req.body);
+    console.log("Body of created task:", req.body);
     database.insert(req.body);
     res.end();
 };
@@ -28,7 +28,7 @@ const createTask = (req, res) => {
 const deleteTask = (req, res) => {
     database.remove({ _id: req.params.id }, {}, (err, numRemoved) => {
         if (err) {
-            console.log("Error while deleting entry from database");
+            console.log("Error while deleting task from database");
         }
     });
     res.end();
