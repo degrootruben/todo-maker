@@ -1,12 +1,16 @@
 document.addEventListener("DOMContentLoaded", () => {
     // Load tasks into DOM upon loading page
+    const todoListDOM = document.querySelector("#task-list ul");
+
     getTasks();
     async function getTasks() {
         const response = await fetch("/get-tasks");
         const data = await response.json();
 
+        todoListDOM.innerHTML = "";
         if (data.length > 0) {
             console.log("Loading tasks into DOM");
+
             data.forEach(task => {
                 const li = document.createElement("li");
                 const taskName = document.createElement("span");
@@ -50,9 +54,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify(data)
-            }).catch(err => console.log("Error while posting task to server", err));
+            }).then(getTasks()).catch(err => console.log("Error while posting task to server", err));
             
-            nameField.value = "";
+            nameField.value = " ";
         } else {
             console.log("Namefield is empty, please enter a task name");
             e.preventDefault();
@@ -67,17 +71,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     
     // Delete tasks
-    const todoListDOM = document.querySelector("#task-list ul");
-
     todoListDOM.addEventListener("click", e => {
         if (e.target.className == "delete") {
-            const li = e.target.parentElement;
-            todoListDOM.removeChild(li);
-
             const id = e.target.parentNode.firstElementChild.getAttribute("dbID");
             console.log("ID of deleted task:", id);
 
-            fetch("/" + id, { method: "DELETE" }).catch(err => console.log("Error while trying to send delete request of task to server", err));
+            fetch("/" + id, { method: "DELETE" }).then(getTasks()).catch(err => console.log("Error while trying to send delete request of task to server", err));
         }
     });
     

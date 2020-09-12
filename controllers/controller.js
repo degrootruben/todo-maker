@@ -9,13 +9,14 @@ const index = (req, res) => {
 };
 
 const getTasks = (req, res) => {
-    database.find({}, (err, data) => {
+    database.find({}).sort({ time: 1 }).exec((err, data) => {
         if (err) {
+            console.log("Error while fetching tasks from database");
             res.end();
             return;
         }
         res.json(data);
-    });
+    });      
 };
 
 const createTask = (req, res) => {
