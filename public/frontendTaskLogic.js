@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     getTasks();
     async function getTasks() {
-        const response = await fetch("/get-tasks");
+        const response = await fetch("api/v1/get-tasks");
         const data = await response.json();
 
         todoListDOM.innerHTML = "";
@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
             
             const data = { "title": nameField.value, "time": Date.now() };
 
-            await fetch("/", {
+            await fetch("/api/v1/", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (e.target.className == "delete") {
             const id = e.target.parentNode.firstElementChild.getAttribute("dbID");
 
-            fetch("/" + id, { method: "DELETE" }).then(response => {
+            fetch("/api/v1/" + id, { method: "DELETE" }).then(response => {
                 console.log("Deleted task with ID of", id);
                 getTasks();
             }).catch(err => console.log("Error while trying to send delete request of task to server", err));
