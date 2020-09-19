@@ -24,13 +24,11 @@ app.use(morgan("tiny"));
 // Open database and server
 app.listen(port, () => {
     console.log(`Server is listening to requests on http://localhost:${port}`);
-    console.log(dbURI);
+    mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex:true })
+    .then((result) => {
+        console.log("Connected to MongoDB-database");
+    }).catch(err => console.log(err));
 });
-// mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex:true })
-//     .then((result) => {
-//         console.log("Connected to MongoDB-database");
-//     }).catch(err => console.log(err));
-
 
 // Routes
 app.get("*", checkUser);
