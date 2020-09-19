@@ -7,16 +7,18 @@
     <title>ToDo Maker | Login</title>
 </head>
 <body>
-    <form>
-        <h2>Login</h2>
-        <label for="email">Email:</label>
-        <input type="text" name="email" id="email" placeholder="Enter email here" required>
-        <div class="email error"></div>
-        <label for="password">Password:</label>
-        <input type="password" name="password" id="password" placeholder="Enter password here" required>
-        <div class="password error"></div>
-        <button>Login</button>
-    </form>
+    <div id="wrapper">
+        <form>
+            <h2>Login</h2>
+            <label for="email">Email:</label>
+            <input type="text" name="email" id="email" placeholder="Enter email here" required>
+            <div class="email error"></div>
+            <label for="password">Password:</label>
+            <input type="password" name="password" id="password" placeholder="Enter password here" required>
+            <div class="password error"></div>
+            <button>Login</button>
+        </form>
+    </div>
 
     <script>
         const form = document.querySelector("form");
@@ -45,7 +47,7 @@
                     passwordError.textContent = data.errors.password;
                 }
                 if (data.user) {
-                    location.assign("/tasks");
+                    location.assign("/");
                 }
             }
             catch (err) {

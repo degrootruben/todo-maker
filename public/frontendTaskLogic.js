@@ -4,8 +4,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     getTasks();
     async function getTasks() {
-        const response = await fetch("/get-tasks");
-        const data = await response.json();
+        const response = await fetch("api/v1/get-tasks");
+        const data = await response.json(); 
 
         todoListDOM.innerHTML = "";
         if (data.length > 0) {
@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 taskName.setAttribute("dbID", task._id);
                 deleteButton.classList.add("delete");
     
-                taskName.textContent = task.title;
+                taskName.textContent = task.body;
                 deleteButton.textContent = "Delete";
     
                 li.appendChild(taskName);
@@ -31,7 +31,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
     
-    
     // Add tasks to database when form is submitted
     const addForm = document.forms["add-task"];
     const nameField = addForm.querySelector("input[type='text']");
@@ -39,6 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
     let counter = 0;
     addForm.addEventListener('submit', async e => {
+        console.log(placeholder);
 
         if (nameField.value != "") {
             e.preventDefault();
@@ -46,9 +46,9 @@ document.addEventListener("DOMContentLoaded", () => {
             
             console.log(`Trying to post task "${nameField.value}" to server`);
             
-            const data = { "title": nameField.value, "time": Date.now() };
+            const data = { "body": nameField.value };
 
-            await fetch("/", {
+            await fetch("/api/v1/", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 body: JSON.stringify(data)
             }).then(getTasks()).catch(err => console.log("Error while posting task to server", err));
             
-            nameField.value = " ";
+            nameField.value = "";
         } else {
             console.log("Namefield is empty, please enter a task name");
             e.preventDefault();
@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (e.target.className == "delete") {
             const id = e.target.parentNode.firstElementChild.getAttribute("dbID");
 
-            fetch("/" + id, { method: "DELETE" }).then(response => {
+            fetch("/api/v1/" + id, { method: "DELETE" }).then(response => {
                 console.log("Deleted task with ID of", id);
                 getTasks();
             }).catch(err => console.log("Error while trying to send delete request of task to server", err));
@@ -110,24 +110,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
         });
-    });
-
-    // Display contact or about tab
-    const tabs = document.querySelector(".tabs");
-    const panels = document.querySelectorAll(".panel");
-
-    tabs.addEventListener("click", e => {
-        if (e.target.tagName == "LI") {
-            const targetPanel = document.querySelector(e.target.dataset.target);
-
-            panels.forEach(panel => {
-                if (panel == targetPanel) {
-                    panel.classList.add("active");
-                } else {
-                    panel.classList.remove("active");
-                }
-            })
-        }
     });
 });
 

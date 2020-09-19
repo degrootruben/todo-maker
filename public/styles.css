@@ -21,9 +21,9 @@ h1, h2{
 }
 
 #page-banner{
-    background: #eee ;
+    background: #eee;
     padding: 10px 0;
-
+    text-align: center;
 }
 
 #page-banner h1, #page-banner p{
@@ -123,27 +123,27 @@ h1, h2{
     line-height: 52px;
 }
 
-#tabbed-content li{
-    display: inline-block;
-    padding: 10px 14px;
-    background: #ddd;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-right: 10px;
-}
-
-#tabbed-content .panel {
-    display: none;
-    border: 1px solid #ddd;
-    padding: 0 10px;
-    border-radius: 4px;
-}
-
-#tabbed-content .panel.active {
-    display: block;
-}
-
-.logout {
+.log {
+    display: inline;
     color: black;
     text-align: center;
+}
+
+#auth-nav {
+	display: table;
+	margin: 0 auto;
+}
+
+ul#auth-ul {
+	list-style: none;
+    padding-top: 20px;
+    width: 100%;
+    margin: auto;
+    display: inline-block;
+    text-align: initial;
+}
+
+ul#auth-ul li {
+    display: inline;
+    padding-left: 50px;
 }

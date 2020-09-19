@@ -4,27 +4,25 @@
     <meta charset="utf-8">
 	<link href="../styles.css" rel="stylesheet">
 	<script src="../frontendTaskLogic.js"></script>
-	<title id="page-title">ToDo Maker</title>
-	<link rel="apple-touch-icon" sizes="60x60" href="/assets/img/apple-touch-icon.png">
+	<title id="page-title">ToDo Maker | Tasks</title>
 	<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png">
-	<link rel="manifest" crossorigin="use-credentials" href="/assets/img/manifest.json">
-	<link rel="mask-icon" href="/assets/img/safari-pinned-tab.svg" color="#5bbad5">
-	<link rel="shortcut icon" href="/assets/img/favicon.ico">
-	<meta name="msapplication-TileColor" content="#9f00a7">
-	<meta name="msapplication-config" content="/assets/img/browserconfig.xml">
-	<meta name="theme-color" content="#ffffff">
   </head>
   <body>
   	<div id="wrapper">
 	    <header>
 	    	<div id="page-banner">
 	    		<h1 class="title">ToDo Maker</h1>
-		  <p>Easy task management tool</p>
-		  <a href="/logout" class="logout">Log out</a>
-          <form id="search-tasks">
-            <input type="text" placeholder="Search tasks..." />
-          </form>
+				<p>Easy task management tool</p>
+				<p class="welcome-message">Welcome %user%</p>
+		  		<nav>
+					<ul>
+						<li><a href="/logout" class="log">Log out</a></li>
+					</ul>
+				</nav>
+        		<form id="search-tasks">
+            		<input type="text" placeholder="Search tasks..." />
+        		</form>
 	    	</div>
 	    </header>
 	    <div id="task-list">
@@ -39,22 +37,6 @@
 	    	<input type="text" placeholder="Add a task...">
 	    	<button>Add</button>
 	    </form>
-
-		<div id="tabbed-content">
-			<ul class="tabs">
-			  <li data-target="#about" class="active">About</li>
-			  <li data-target="#contact">Contact</li>
-			</ul>
-			<div class="panel active" id="about">
-			  <p>Content for about tab...</p>
-			  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum id nunc porta urna ornare rhoncus. Ut convallis ante at.</p>
-			</div>
-			<div class="panel" id="contact">
-			  <p>Content for contact tab...</p>
-			  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum id nunc porta urna ornare rhoncus. Ut convallis ante at.</p>
-			</div>
-		  </div>
-		</div>
 	</div>
   </body>
 </html>

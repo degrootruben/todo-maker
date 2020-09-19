@@ -1,7 +1,8 @@
 const express = require("express");
 const util = require("./util");
 const morgan = require("morgan");
-const routes = require("./routes/routes");
+const mainRoutes = require("./routes/mainRoutes");
+const apiRoutes = require("./routes/apiRoutes");
 const authRoutes = require("./routes/authRoutes");
 const { checkUser } = require("./middleware/authMiddleware");
 const mongoose = require("mongoose");
@@ -32,7 +33,8 @@ mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true, useCr
 
 // Routes
 app.get("*", checkUser);
-app.use(routes);
+app.use(mainRoutes);
+app.use("/api", apiRoutes);
 app.use(authRoutes);
 
 // 404
