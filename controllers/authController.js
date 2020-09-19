@@ -7,6 +7,16 @@ const handleErrors = (err) => {
     console.log(err.message, err.code);
     let errors = { email: "", password: "" };
   
+    // Incorrect email
+    if (err.message === "Incorrect email") {
+        errors.email = err.message;
+    }
+
+    // Incorrect password
+    if (err.message === "Incorrect password") {
+        errors.password = err.message;
+    }
+
     // Duplicate email error
     if (err.code === 11000) {
       errors.email = "That email is already registered";
@@ -39,10 +49,13 @@ module.exports.login_post = async (req, res) => {
 
     try {
         const user = await User.login(email, password);
+        const token = createToken(user._id);
+        res.cookie("JWT", token, { httpOnly: true, maxAge: maxAgeOfJWT * 1000 });
         res.status(200).json({ user: user._id });
     }
     catch (err) {
-        res.status(400).json({});
+        const errors = handleErrors(err);
+        res.status(400).json({ errors });
     }
 }
 
@@ -63,4 +76,9 @@ module.exports.signup_post = async (req, res) => {
         const errors = handleErrors(err);
         res.status(400).json({ errors });
     }
+}
+
+module.exports.logout_get = (req, res) => {
+    res.cookie("JWT", "", { maxAge: 1 });
+    res.redirect("/");
 }

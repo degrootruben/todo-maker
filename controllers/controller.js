@@ -5,6 +5,10 @@ const database = new Datastore("database.db");
 database.loadDatabase();
 
 const index = (req, res) => {
+    res.status(200).sendFile(util.getPath("views/index.html"));
+};
+
+const tasks = (req, res) => {
     res.status(200).sendFile(util.getPath("views/tasks.html"));
 };
 
@@ -36,6 +40,7 @@ const deleteTask = (req, res) => {
 
 module.exports = {
     index,
+    tasks,
     getTasks,
     createTask,
     deleteTask
