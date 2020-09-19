@@ -11,7 +11,7 @@ const cookieParser = require("cookie-parser");
 require('dotenv').config();
 
 const app = express();
-const port = process.env.$PORT || process.env.PORT || "8000";
+const port = process.env.PORT || "8000";
 const dbURI = process.env.DB_URI;
 
 // Middelware
