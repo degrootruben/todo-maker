@@ -4,7 +4,6 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "text": "echo hello",
     "start": "node app.js"
   },
   "engines": {

@@ -22,13 +22,13 @@ app.use(cookieParser());
 app.use(morgan("tiny"));
 
 // Open database and server
-mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex:true })
-    .then((result) => {
-        console.log("Connected to MongoDB-database");
-        app.listen(port, () => {
-            console.log(`Server is listening to requests on http://localhost:${port}`);
-        });
-    }).catch(err => console.log(err));
+app.listen(port, () => {
+    console.log(`Server is listening to requests on http://localhost:${port}`);
+});
+// mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex:true })
+//     .then((result) => {
+//         console.log("Connected to MongoDB-database");
+//     }).catch(err => console.log(err));
 
 
 // Routes
