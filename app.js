@@ -2,6 +2,7 @@ const express = require("express");
 const util = require("./util");
 const morgan = require("morgan");
 const routes = require("./routes/routes");
+const authRoutes = require("./routes/authRoutes");
 const bodyParser = require("body-parser");
 
 require('dotenv').config();
@@ -15,7 +16,8 @@ app.use(express.json());
 app.use(morgan("tiny"));
 
 // Routes
-app.use("/", routes);
+app.use(routes);
+app.use(authRoutes);
 
 // 404
 app.use((req, res) => {
