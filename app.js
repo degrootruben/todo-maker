@@ -11,7 +11,7 @@ const cookieParser = require("cookie-parser");
 require('dotenv').config();
 
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 8000;
 const dbURI = process.env.DB_URI;
 
 // Middelware
@@ -27,7 +27,7 @@ mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true, useCr
         console.log("Connected to MongoDB-database");
         app.listen(port, () => {
             console.log(`Server is listening to requests on http://localhost:${port}`);
-        })
+        });
     }).catch(err => console.log(err));
 
 
