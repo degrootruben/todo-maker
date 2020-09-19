@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     getTasks();
     async function getTasks() {
         const response = await fetch("api/v1/get-tasks");
-        const data = await response.json();
+        const data = await response.json(); 
 
         todoListDOM.innerHTML = "";
         if (data.length > 0) {
@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 taskName.setAttribute("dbID", task._id);
                 deleteButton.classList.add("delete");
     
-                taskName.textContent = task.title;
+                taskName.textContent = task.body;
                 deleteButton.textContent = "Delete";
     
                 li.appendChild(taskName);
@@ -31,7 +31,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
     
-    
     // Add tasks to database when form is submitted
     const addForm = document.forms["add-task"];
     const nameField = addForm.querySelector("input[type='text']");
@@ -39,6 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
     let counter = 0;
     addForm.addEventListener('submit', async e => {
+        console.log(placeholder);
 
         if (nameField.value != "") {
             e.preventDefault();
@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
             
             console.log(`Trying to post task "${nameField.value}" to server`);
             
-            const data = { "title": nameField.value, "time": Date.now() };
+            const data = { "body": nameField.value };
 
             await fetch("/api/v1/", {
                 method: "POST",
@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 body: JSON.stringify(data)
             }).then(getTasks()).catch(err => console.log("Error while posting task to server", err));
             
-            nameField.value = " ";
+            nameField.value = "";
         } else {
             console.log("Namefield is empty, please enter a task name");
             e.preventDefault();

@@ -1,30 +1,33 @@
-const Datastore = require("nedb");
-
-const database = new Datastore("database.db");
-database.loadDatabase();
+const Task = require("../models/Task");
 
 module.exports.getTasks = (req, res) => {
-    database.find({}).sort({ time: 1 }).exec((err, data) => {
-        if (err) {
-            console.log("Error while fetching tasks from database");
-            res.end();
-            return;
-        }
-        res.json(data);
-    });      
+    Task.find().sort({ createdAt: 1 })
+    .then((result) => {
+        res.json(result);
+    }).catch((err) => {
+        console.log(err);
+    });
 };
 
 module.exports.createTask = (req, res) => {
-    console.log("Body of created task:", req.body);
-    database.insert(req.body);
-    res.end();
+    const task = new Task(req.body);
+    
+    task.save()
+    .then(() => {
+        res.redirect("/tasks");
+        console.log("Body of created task:", req.body);
+    })
+    .catch((err) => {
+        console.log(err);
+    });
 };
 
 module.exports.deleteTask = (req, res) => {
-    database.remove({ _id: req.params.id }, {}, (err, numRemoved) => {
-        if (err) {
-            console.log("Error while deleting task from database");
-        }
+    Task.findByIdAndDelete(req.params.id)
+    .then(result => {
+        res.end();
+    })
+    .catch(err => {
+        console.log(err);
     });
-    res.end();
 }
