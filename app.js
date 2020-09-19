@@ -10,6 +10,13 @@ require('dotenv').config();
 const app = express();
 const port = process.env.PORT || "8000";
 const dbURI = process.env.DB_URI;
+
+// Middelware
+app.use(express.static("public", { root: __dirname }));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(morgan("tiny"));
+
 // Open database and server
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex:true })
     .then((result) => {
@@ -19,10 +26,6 @@ mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true, useCr
         })
     }).catch(err => console.log(err));
 
-app.use(express.static("public", { root: __dirname }));
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-app.use(morgan("tiny"));
 
 // Routes
 app.use(routes);

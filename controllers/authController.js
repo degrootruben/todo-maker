@@ -6,7 +6,7 @@ module.exports.login_get = (req, res) => {
 
 module.exports.login_post = (req, res) => {
     res.send("User is trying to login");
-    console.log(req.body.email);
+    console.log(req.body);
 }
 
 module.exports.signup_get = (req, res) => {
@@ -15,4 +15,5 @@ module.exports.signup_get = (req, res) => {
 
 module.exports.signup_post = (req, res) => {
     res.send("New user signed up");
+    console.log(req.body);
 }
