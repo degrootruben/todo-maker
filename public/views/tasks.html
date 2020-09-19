@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+	<link href="../styles.css" rel="stylesheet">
+	<script src="../frontendTaskLogic.js"></script>
+	<title id="page-title">ToDo Maker</title>
+	<link rel="apple-touch-icon" sizes="60x60" href="/assets/img/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png">
+	<link rel="manifest" crossorigin="use-credentials" href="/assets/img/manifest.json">
+	<link rel="mask-icon" href="/assets/img/safari-pinned-tab.svg" color="#5bbad5">
+	<link rel="shortcut icon" href="/assets/img/favicon.ico">
+	<meta name="msapplication-TileColor" content="#9f00a7">
+	<meta name="msapplication-config" content="/assets/img/browserconfig.xml">
+	<meta name="theme-color" content="#ffffff">
+  </head>
+  <body>
+  	<div id="wrapper">
+	    <header>
+	    	<div id="page-banner">
+	    		<h1 class="title">ToDo Maker</h1>
+		  <p>Easy task management tool</p>
+		  <a href="/logout" class="logout">Log out</a>
+          <form id="search-tasks">
+            <input type="text" placeholder="Search tasks..." />
+          </form>
+	    	</div>
+	    </header>
+	    <div id="task-list">
+	    	<h2 class="title">Tasks</h2>
+	    	<ul>
+	    		
+	    	</ul>
+	    </div>
+	    <form id="add-task">
+			<input type="checkbox" id="hide">
+			<label for="hide">Hide all tasks</label>
+	    	<input type="text" placeholder="Add a task...">
+	    	<button>Add</button>
+	    </form>
+
+		<div id="tabbed-content">
+			<ul class="tabs">
+			  <li data-target="#about" class="active">About</li>
+			  <li data-target="#contact">Contact</li>
+			</ul>
+			<div class="panel active" id="about">
+			  <p>Content for about tab...</p>
+			  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum id nunc porta urna ornare rhoncus. Ut convallis ante at.</p>
+			</div>
+			<div class="panel" id="contact">
+			  <p>Content for contact tab...</p>
+			  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum id nunc porta urna ornare rhoncus. Ut convallis ante at.</p>
+			</div>
+		  </div>
+		</div>
+	</div>
+  </body>
+</html>

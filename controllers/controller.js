@@ -8,6 +8,10 @@ const index = (req, res) => {
     res.status(200).sendFile(util.getPath("views/index.html"));
 };
 
+const tasks = (req, res) => {
+    res.status(200).sendFile(util.getPath("views/tasks.html"));
+};
+
 const getTasks = (req, res) => {
     database.find({}).sort({ time: 1 }).exec((err, data) => {
         if (err) {
@@ -36,6 +40,7 @@ const deleteTask = (req, res) => {
 
 module.exports = {
     index,
+    tasks,
     getTasks,
     createTask,
     deleteTask

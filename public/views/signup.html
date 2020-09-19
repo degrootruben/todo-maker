@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles.css">
+    <title>ToDo Maker | Signup</title>
+</head>
+<body>
+    <form>
+        <h2>Sign Up</h2>
+        <label for="email">Email:</label>
+        <input type="text" name="email" id="email" placeholder="Enter email here" required>
+        <div class="email error"></div>
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password" placeholder="Enter password here" required>
+        <div class="password error"></div>
+        <button>Sign up</button>
+    </form>
+
+    <script>
+        const form = document.querySelector("form");
+        const emailError = document.querySelector(".email.error");
+        const passwordError = document.querySelector(".password.error");
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            emailError.textContent = "";
+            passwordError.textContent = "";
+
+            const email = form.email.value;
+            const password = form.password.value;
+
+            try {
+                const res = await fetch('/signup', { 
+                    method: 'POST', 
+                    body: JSON.stringify({ email, password }),
+                    headers: {'Content-Type': 'application/json'}
+                });
+                const data = await res.json();
+                console.log(data);
+                if(data.errors) {
+                    emailError.textContent = data.errors.email;
+                    passwordError.textContent = data.errors.password;
+                }
+                if (data.user) {
+                    location.assign("/tasks");
+                }
+            }
+            catch (err) {
+                console.log(err);
+            }
+        });
+    </script>
+</body>
+</html>
