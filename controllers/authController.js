@@ -1,5 +1,7 @@
 const util = require("../util");
 const User = require("../models/User");
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 const handleErrors = (err) => {
     console.log(err.message, err.code);
@@ -19,15 +21,29 @@ const handleErrors = (err) => {
     }
   
     return errors;
-  }
+}
+
+const maxAgeOfJWT = 3 * 24 * 60 * 60;
+const createToken = (id) => {
+    return jwt.sign({ id }, process.env.JWT_SECRET, {
+        expiresIn: maxAgeOfJWT
+    });
+};
 
 module.exports.login_get = (req, res) => {
     res.status(200).sendFile(util.getPath("views/login.html"));
 }
 
 module.exports.login_post = async (req, res) => {
-    res.send("User is trying to login");
-    console.log(req.body);
+    const { email, password } = req.body;
+
+    try {
+        const user = await User.login(email, password);
+        res.status(200).json({ user: user._id });
+    }
+    catch (err) {
+        res.status(400).json({});
+    }
 }
 
 module.exports.signup_get = (req, res) => {
@@ -39,7 +55,9 @@ module.exports.signup_post = async (req, res) => {
 
     try {
         const user = await User.create({ email, password });
-        res.status(201).json(user);
+        const token = createToken(user._id);
+        res.cookie("JWT", token, { httpOnly: true, maxAge: maxAgeOfJWT * 1000 });
+        res.status(201).json({ user: user._id });
     } 
     catch (err) {
         const errors = handleErrors(err);

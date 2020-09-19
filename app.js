@@ -4,6 +4,7 @@ const morgan = require("morgan");
 const routes = require("./routes/routes");
 const authRoutes = require("./routes/authRoutes");
 const mongoose = require("mongoose");
+const cookieParser = require("cookie-parser");
 
 require('dotenv').config();
 
@@ -15,6 +16,7 @@ const dbURI = process.env.DB_URI;
 app.use(express.static("public", { root: __dirname }));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cookieParser());
 app.use(morgan("tiny"));
 
 // Open database and server

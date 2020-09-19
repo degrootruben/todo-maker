@@ -5,7 +5,7 @@ const database = new Datastore("database.db");
 database.loadDatabase();
 
 const index = (req, res) => {
-    res.status(200).sendFile(util.getPath("views/index.html"));
+    res.status(200).sendFile(util.getPath("views/tasks.html"));
 };
 
 const getTasks = (req, res) => {
