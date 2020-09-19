@@ -7,6 +7,9 @@
     "text": "echo hello",
     "start": "node app.js"
   },
+  "engines": {
+    "node": "14.8.0"
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
