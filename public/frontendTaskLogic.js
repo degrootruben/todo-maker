@@ -1,9 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
     // Load tasks into DOM upon loading page
     const todoListDOM = document.querySelector("#task-list ul");
-    const email = getCookie("EMAIL");
-    const welcomeMessage = document.querySelector(".welcome-message");
-    welcomeMessage.innerHTML = `Logged in as: ${email}`;
+
+    getUserEmail();
+    async function getUserEmail() {
+        const welcomeMessage = document.querySelector(".welcome-message");
+        const response = await fetch("/api/v1/get-useremail");
+        const data = await response.json();
+        const email = data.email;
+        welcomeMessage.innerHTML = `Logged in as: ${email}`;
+    }
 
     getTasks();
     async function getTasks() {
