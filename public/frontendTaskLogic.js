@@ -1,7 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Load tasks into DOM upon loading page
-    const todoListDOM = document.querySelector("#task-list ul");
-
+    // Get user email and put it in welcome message
     getUserEmail();
     async function getUserEmail() {
         const welcomeMessage = document.querySelector(".welcome-message");
@@ -10,6 +8,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const email = data.email;
         welcomeMessage.innerHTML = `Logged in as: ${email}`;
     }
+
+    // Load tasks into DOM upon loading page
+    const todoListDOM = document.querySelector("#task-list ul");
 
     getTasks();
     async function getTasks() {
@@ -139,4 +140,3 @@ document.addEventListener("DOMContentLoaded", () => {
         return "";
     }
 });
-
