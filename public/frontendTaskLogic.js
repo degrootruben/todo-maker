@@ -7,8 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
     async function getUserEmail() {
         const welcomeMessage = document.querySelector(".welcome-message");
         const response = await fetch("/api/v1/get-useremail");
-        const data = await response.json();
-        const email = data.email;
+        const email = await response.json();
         welcomeMessage.innerHTML = `Logged in as: ${email}`;
     }
 

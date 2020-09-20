@@ -1,6 +1,7 @@
 const Task = require("../models/Task");
 const jwt = require("jsonwebtoken");
 const User = require('../models/User');
+const util = require("../util")
 
 module.exports.getTasks = (req, res) => {
     Task.find().sort({ createdAt: 1 })
@@ -11,28 +12,18 @@ module.exports.getTasks = (req, res) => {
     });
 };
 
-module.exports.getUserID = (req, res) => {
-    const token = req.cookies.JWT;
-
-    if (token) {
-        jwt.verify(token, process.env.JWT_SECRET, async (err, decodedToken) => {
-            if (err) {
-                console.log(err.message());
-                res.json({ error: "Error while trying to verify user" });
-            } else {
-                res.json(decodedToken.id);
-            }
-        });
-    } else {
-        res.json({ error: "User is not logged in" });
-    }
+module.exports.getUserID = async (req, res) => {
+    const user = await util.getCurrentUser(req, res);
+    
+    res.json(user._id);
 };
 
-module.exports.getUserEmail = (req, res) => {
-    const email = req.cookies.EMAIL;
-
-    if (email) {
-        res.json({ email });
+module.exports.getUserEmail = async (req, res) => {
+    const user = await util.getCurrentUser(req, res);
+    
+    if (user) {
+        const email = user.email;
+        res.json(email);
     } else {
         res.json({ error: "User email is not found, this probably means that the user is not logged in. "});
     }

@@ -4,6 +4,10 @@ const taskSchema = new mongoose.Schema({
     body: {
         type: String,
         required: true
+    },
+    id: {
+        type: String, 
+        required: true
     }
 }, { timestamps: true });
 
