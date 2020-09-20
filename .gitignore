@@ -107,6 +107,4 @@ dist
 # Stores VSCode versions used for testing VSCode extensions
 .vscode-test
 
-bfg.jar
-text.txt
-database.db
+PROJECT.txt
