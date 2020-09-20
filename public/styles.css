@@ -147,3 +147,22 @@ ul#auth-ul li {
     display: inline;
     padding-left: 50px;
 }
+
+.welcome-message {
+    font-size: 0.8em;
+}
+
+.btn{
+    text-decoration: none;
+    border: 1px solid #9361bf;
+    background: #9361bf;
+    padding: 10px 20px;
+    font-size: 16px;
+    margin: 0;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100px;
+    margin: 20px 0;
+    border-left: 0;
+    color: white;
+}

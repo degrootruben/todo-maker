@@ -30,7 +30,6 @@ mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true, useCr
         console.log("Connected to MongoDB-database");
     }).catch(err => console.log(err));
 
-
 // Routes
 app.get("*", checkUser);
 app.use(mainRoutes);

@@ -46,11 +46,12 @@ module.exports.login_get = (req, res) => {
 
 module.exports.login_post = async (req, res) => {
     const { email, password } = req.body;
-
+    
     try {
         const user = await User.login(email, password);
         const token = createToken(user._id);
         res.cookie("JWT", token, { httpOnly: true, maxAge: maxAgeOfJWT * 1000 });
+        res.cookie("EMAIL", email, { maxAge: maxAgeOfJWT * 1000 });
         res.status(200).json({ user: user._id });
     }
     catch (err) {

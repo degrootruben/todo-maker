@@ -1,6 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
     // Load tasks into DOM upon loading page
     const todoListDOM = document.querySelector("#task-list ul");
+    const email = getCookie("EMAIL");
+    const welcomeMessage = document.querySelector(".welcome-message");
+    welcomeMessage.innerHTML = `Logged in as: ${email}`;
 
     getTasks();
     async function getTasks() {
@@ -111,5 +114,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
         });
     });
+
+    function getCookie(cname) {
+        let name = cname + "=";
+        let decodedCookie = decodeURIComponent(document.cookie);
+        let ca = decodedCookie.split(';');
+
+        for(let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
 });
 
