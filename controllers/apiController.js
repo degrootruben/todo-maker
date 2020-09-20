@@ -1,4 +1,6 @@
 const Task = require("../models/Task");
+const jwt = require("jsonwebtoken");
+const User = require('../models/User');
 
 module.exports.getTasks = (req, res) => {
     Task.find().sort({ createdAt: 1 })
@@ -9,7 +11,7 @@ module.exports.getTasks = (req, res) => {
     });
 };
 
-module.exports.getUser = (req, res) => {
+module.exports.getUserID = (req, res) => {
     const token = req.cookies.JWT;
 
     if (token) {
@@ -20,7 +22,7 @@ module.exports.getUser = (req, res) => {
             } else {
                 console.log(decodedToken);
                 const user = await User.findById(decodedToken.id);
-                res.json(user);
+                res.json(user._id);
             }
         });
     } else {
