@@ -9,6 +9,35 @@ module.exports.getTasks = (req, res) => {
     });
 };
 
+module.exports.getUser = (req, res) => {
+    const token = req.cookies.JWT;
+
+    if (token) {
+        jwt.verify(token, process.env.JWT_SECRET, async (err, decodedToken) => {
+            if (err) {
+                console.log(err.message());
+                res.json({ error: "Error while trying to verify user" });
+            } else {
+                console.log(decodedToken);
+                const user = await User.findById(decodedToken.id);
+                res.json(user);
+            }
+        });
+    } else {
+        res.json({ error: "User is not logged in" });
+    }
+};
+
+module.exports.getUserEmail = (req, res) => {
+    const email = req.cookies.EMAIL;
+
+    if (email) {
+        res.json({ email });
+    } else {
+        res.json({ error: "User email is not found, this probably means that the user is not logged in. "});
+    }
+};
+
 module.exports.createTask = (req, res) => {
     const task = new Task(req.body);
     
