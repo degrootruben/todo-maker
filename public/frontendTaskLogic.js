@@ -1,4 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
+    // Get the task list
+    const todoListDOM = document.querySelector("#task-list ul");
+
     // Get user email and put it in welcome message
     getUserEmail();
     async function getUserEmail() {
@@ -10,8 +13,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Load tasks into DOM upon loading page
-    const todoListDOM = document.querySelector("#task-list ul");
-
     getTasks();
     async function getTasks() {
         const response = await fetch("api/v1/get-tasks");
@@ -92,7 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
     
-    // Hide books when checkbox is checked
+    // Hide tasks when checkbox is checked
     const hideBox = document.querySelector("#hide");
 
     hideBox.addEventListener("change", e => {
@@ -103,7 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Search books through search bar
+    // Search tasks through search bar
     const searchBar = document.forms["search-tasks"].querySelector("input");
 
     searchBar.addEventListener("keyup", e => {
