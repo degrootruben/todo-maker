@@ -20,9 +20,7 @@ module.exports.getUserID = (req, res) => {
                 console.log(err.message());
                 res.json({ error: "Error while trying to verify user" });
             } else {
-                console.log(decodedToken);
-                const user = await User.findById(decodedToken.id);
-                res.json(user._id);
+                res.json(decodedToken.id);
             }
         });
     } else {
