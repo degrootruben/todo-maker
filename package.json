@@ -1,6 +1,6 @@
 {
   "name": "todo-maker",
-  "version": "1.0.0",
+  "version": "alpha",
   "description": "",
   "main": "app.js",
   "scripts": {
