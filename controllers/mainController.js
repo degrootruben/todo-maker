@@ -25,5 +25,23 @@ module.exports.index = (req, res) => {
 }
 
 module.exports.tasks = (req, res) => {
-    res.status(200).sendFile(util.getPath("views/tasks.html"));
+    const token = req.cookies.JWT;
+
+    if (token) {
+        jwt.verify(token, process.env.JWT_SECRET, async (err, decodedToken) => {
+            if (err) {
+                console.log(err.message());
+            } else {
+                User.countDocuments({ _id: decodedToken.id }, (err, count) => {
+                    if(count > 0) {
+                        res.status(200).sendFile(util.getPath("views/tasks.html"));
+                    } else {
+                        res.redirect("/login");
+                    }
+                }); 
+            }
+        });
+    } else {
+        res.redirect("/login");
+    }
 }

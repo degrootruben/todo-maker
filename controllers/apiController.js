@@ -3,24 +3,34 @@ const jwt = require("jsonwebtoken");
 const User = require('../models/User');
 const util = require("../util")
 
-module.exports.getTasks = (req, res) => {
-    Task.find().sort({ createdAt: 1 })
-    .then((result) => {
-        res.json(result);
-    }).catch((err) => {
-        console.log(err);
-    });
+module.exports.getTasks = async (req, res) => {
+    const user = await util.getCurrentUser(req, res);
+
+    if (user) {
+        Task.find().sort({ createdAt: 1 })
+        .then((result) => {
+            res.json(result);
+        }).catch((err) => {
+            console.log(err);
+        });
+    } else {
+        res.json({ error: "No user is logged in" });
+    }
 };
 
 module.exports.getUserID = async (req, res) => {
     const user = await util.getCurrentUser(req, res);
-    
-    res.json(user._id);
+
+    if (user) {
+        res.json(user._id);
+    } else {
+        res.json({ error: "No user is logged in" });
+    }
 };
 
 module.exports.getUserEmail = async (req, res) => {
     const user = await util.getCurrentUser(req, res);
-    
+
     if (user) {
         const email = user.email;
         res.json(email);
@@ -29,25 +39,38 @@ module.exports.getUserEmail = async (req, res) => {
     }
 };
 
-module.exports.createTask = (req, res) => {
-    const task = new Task(req.body);
+module.exports.createTask = async (req, res) => {
+    const user = await util.getCurrentUser(req, res);
+
+    if (user) {
+        const task = new Task(req.body);
     
-    task.save()
-    .then(() => {
-        res.redirect("/tasks");
-        console.log("Body of created task:", req.body);
-    })
-    .catch((err) => {
-        console.log(err);
-    });
+        task.save()
+        .then(() => {
+            res.redirect("/tasks");
+            console.log("Body of created task:", req.body);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+    } else {
+        res.json({ error: "No user is logged in" });
+    }
+    
 };
 
-module.exports.deleteTask = (req, res) => {
-    Task.findByIdAndDelete(req.params.id)
-    .then(result => {
-        res.end();
-    })
-    .catch(err => {
-        console.log(err);
-    });
+module.exports.deleteTask = async (req, res) => {
+    const user = await util.getCurrentUser(req, res);
+
+    if (user) {
+        Task.findByIdAndDelete(req.params.id)
+        .then(result => {
+            res.end();
+        })
+        .catch(err => {
+            console.log(err);
+        });
+    } else {
+        res.json({ error: "No user is logged in" });
+    }
 }

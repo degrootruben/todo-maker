@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 taskName.setAttribute("dbID", task._id);
                 deleteButton.classList.add("delete");
     
-                taskName.textContent = task.body;
+                taskName.textContent = task.taskName;
                 deleteButton.textContent = "Delete";
     
                 li.appendChild(taskName);
@@ -56,21 +56,31 @@ document.addEventListener("DOMContentLoaded", () => {
             
             console.log(`Trying to post task "${nameField.value}" to server`);
             
-            const data = { "body": nameField.value };
+            // Get UserID
+            const userIDResponse = await fetch("/api/v1/get-userid", { method: "GET", headers: { "Content-Type": "application/json" } });
+            const userID = await userIDResponse.json();
 
-            await fetch("/api/v1/", {
+            const data = { "taskName": nameField.value, "userID": userID };
+
+            await fetch("/api/v1/create-task", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify(data)
-            }).then(getTasks()).catch(err => console.log("Error while posting task to server", err));
+            }).then(res => {
+                console.log("Hey");
+                getTasks();
+                return res;
+            }).catch(err => console.log("Error while posting task to server", err));
             
             nameField.value = "";
         } else {
             console.log("Namefield is empty, please enter a task name");
+
             e.preventDefault();
-            nameField.setAttribute("placeholder", "Please enter a book title...");
+
+            nameField.setAttribute("placeholder", "Please enter a task title...");
             counter++;
             if (counter == 5) {
                 alert("Enter a task title to add a task to the list!");

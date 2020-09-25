@@ -1,12 +1,14 @@
 const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
-const taskSchema = new mongoose.Schema({
-    body: {
+const taskSchema = Schema({
+    taskName: {
         type: String,
         required: true
     },
-    id: {
-        type: String, 
+    userID: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
         required: true
     }
 }, { timestamps: true });
