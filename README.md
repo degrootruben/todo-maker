@@ -1,4 +1,5 @@
-# ToDo Maker
+# ToDo Maker [![Latest release](https://latest-release-svg.herokuapp.com/latest-release.svg)](https://github.com/degrootruben/todo-maker/releases)
+
 ToDo Maker is a project I am working on to learn the basics of Node.js, Express, HTML, CSS, Javascript, Mongoose and all the other librariers, frameworks and tools that come along with it. It is a web app that let's you create a user account and make a task list in this user account.
 
 ## Installing ToDo Maker
