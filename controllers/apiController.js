@@ -1,13 +1,15 @@
 const Task = require("../models/Task");
-const jwt = require("jsonwebtoken");
 const User = require('../models/User');
-const util = require("../util")
+const jwt = require("jsonwebtoken");
+const util = require("../util");
+const { ObjectId } = require("mongoose");
 
 module.exports.getTasks = async (req, res) => {
     const user = await util.getCurrentUser(req, res);
+    const userID = new ObjectId(user._id);
 
     if (user) {
-        Task.find().sort({ createdAt: 1 })
+        Task.find({ userID: userID.path }).sort({ createdAt: 1 })
         .then((result) => {
             res.json(result);
         }).catch((err) => {

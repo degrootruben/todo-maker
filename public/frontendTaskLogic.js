@@ -69,7 +69,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 },
                 body: JSON.stringify(data)
             }).then(res => {
-                console.log("Hey");
                 getTasks();
                 return res;
             }).catch(err => console.log("Error while posting task to server", err));
