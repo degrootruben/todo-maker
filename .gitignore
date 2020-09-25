@@ -109,3 +109,5 @@ dist
 
 PROJECT.txt
 Procfile
+
+generate_svg/
