@@ -1,6 +1,6 @@
 # ToDo Maker [![Latest release](https://latest-release-svg.herokuapp.com/latest-release.svg)](https://github.com/degrootruben/todo-maker/releases)
 
-ToDo Maker is a web app that lets you create your own task list! 
+ToDo Maker is a webapp that lets you create your own task list! 
 
 ToDo Maker is a project I am working on to learn the basics of Node.js, Express, HTML, CSS, Javascript, Mongoose, software development in general and all the other librariers, frameworks and tools that come along with it.
 
