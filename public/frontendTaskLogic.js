@@ -1,10 +1,17 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Load tasks into DOM upon loading page
+    // Get the task list
     const todoListDOM = document.querySelector("#task-list ul");
-    const email = getCookie("EMAIL");
-    const welcomeMessage = document.querySelector(".welcome-message");
-    welcomeMessage.innerHTML = `Logged in as: ${email}`;
 
+    // Get user email and put it in welcome message
+    getUserEmail();
+    async function getUserEmail() {
+        const welcomeMessage = document.querySelector(".welcome-message");
+        const response = await fetch("/api/v1/get-useremail");
+        const email = await response.json();
+        welcomeMessage.innerHTML = `Logged in as: ${email}`;
+    }
+
+    // Load tasks into DOM upon loading page
     getTasks();
     async function getTasks() {
         const response = await fetch("api/v1/get-tasks");
@@ -23,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 taskName.setAttribute("dbID", task._id);
                 deleteButton.classList.add("delete");
     
-                taskName.textContent = task.body;
+                taskName.textContent = task.taskName;
                 deleteButton.textContent = "Delete";
     
                 li.appendChild(taskName);
@@ -49,21 +56,30 @@ document.addEventListener("DOMContentLoaded", () => {
             
             console.log(`Trying to post task "${nameField.value}" to server`);
             
-            const data = { "body": nameField.value };
+            // Get UserID
+            const userIDResponse = await fetch("/api/v1/get-userid", { method: "GET", headers: { "Content-Type": "application/json" } });
+            const userID = await userIDResponse.json();
 
-            await fetch("/api/v1/", {
+            const data = { "taskName": nameField.value, "userID": userID };
+
+            await fetch("/api/v1/create-task", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify(data)
-            }).then(getTasks()).catch(err => console.log("Error while posting task to server", err));
+            }).then(res => {
+                getTasks();
+                return res;
+            }).catch(err => console.log("Error while posting task to server", err));
             
             nameField.value = "";
         } else {
             console.log("Namefield is empty, please enter a task name");
+
             e.preventDefault();
-            nameField.setAttribute("placeholder", "Please enter a book title...");
+
+            nameField.setAttribute("placeholder", "Please enter a task title...");
             counter++;
             if (counter == 5) {
                 alert("Enter a task title to add a task to the list!");
@@ -85,7 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
     
-    // Hide books when checkbox is checked
+    // Hide tasks when checkbox is checked
     const hideBox = document.querySelector("#hide");
 
     hideBox.addEventListener("change", e => {
@@ -96,7 +112,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Search books through search bar
+    // Search tasks through search bar
     const searchBar = document.forms["search-tasks"].querySelector("input");
 
     searchBar.addEventListener("keyup", e => {
@@ -114,23 +130,4 @@ document.addEventListener("DOMContentLoaded", () => {
 
         });
     });
-
-    function getCookie(cname) {
-        let name = cname + "=";
-        let decodedCookie = decodeURIComponent(document.cookie);
-        let ca = decodedCookie.split(';');
-
-        for(let i = 0; i < ca.length; i++) {
-            let c = ca[i];
-
-            while (c.charAt(0) == ' ') {
-                c = c.substring(1);
-            }
-            if (c.indexOf(name) == 0) {
-                return c.substring(name.length, c.length);
-            }
-        }
-        return "";
-    }
 });
-

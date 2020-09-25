@@ -14,6 +14,9 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, "Please enter a password"],
         minlength: [8, "Minimum password length is 8 characters"],
+    },
+    tasks: {
+        type: Array
     }
 });
 
@@ -38,5 +41,4 @@ userSchema.statics.login = async function(email, password) {
 }
 
 const User = mongoose.model("user", userSchema);
-
 module.exports = User;
