@@ -67,6 +67,7 @@ module.exports.deleteTask = async (req, res) => {
     if (user) {
         Task.findByIdAndDelete(req.params.id)
         .then(result => {
+            console.log("Id of deleted task", { id: req.params.id });
             res.end();
         })
         .catch(err => {
