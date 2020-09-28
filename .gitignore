@@ -108,6 +108,5 @@ dist
 .vscode-test
 
 PROJECT.txt
-Procfile
 
 generate_svg/
