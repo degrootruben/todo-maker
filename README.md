@@ -30,5 +30,10 @@ If you want to log out you have to be on the task page. Press the "Logout" butto
 ### Logging in
 To log in you need to open the home page by going to http://localhost:8000 in your browser. If you are redirected to the tasks page you are already logged in. If you are not redirected to the task page you can log in by pressing the "Log in" link. In this page you have to fill in your account details and log in by pressing the "Login" button or by pressing ENTER.
 
+## The project
+The idea of this project started when I finished the [Node.js Crash Course](https://www.youtube.com/watch?v=zb3Qk8SG5Ms&list=PL4cUxeGkcC9jsz4LDYc6kv3ymONOKxwBU) course by The Net Ninja. It also sparked my interest in web development. I also used the [Node.js Auth Tutorial](https://www.youtube.com/watch?v=SnoAwLP1a-0&list=PL4cUxeGkcC9iqqESP8335DA5cRFp8loyp) course by The Net Ninja to learn about authentication with JWTs in Node.js. To refresh my knowledge of HTML, CSS and JavaScript I watched some more YouTube tutorials. For other questions I mostly used StackOverflow (of course) and Reddit, they both helped me out a lot. This lead to this project at it's current state. 
+
+To display the newest release image in the title of this README-file I had to create an [NPM package](https://www.npmjs.com/package/latest-release-svg-github). It's called[latest-release-svg-github](https://github.com/degrootruben/latest-release-svg-github), or LRSG. This is my first NPM package.
+
 ## License
 This project uses the [MIT](LICENSE) license.
