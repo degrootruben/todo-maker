@@ -1,4 +1,4 @@
-# ToDo Maker [![Latest release](https://latest-release-svg.herokuapp.com/latest-release.svg)](https://github.com/degrootruben/todo-maker/releases)
+# ToDo Maker [![Latest release](https://latest-release-svg.herokuapp.com/latest-release-todo-maker.svg)](https://github.com/degrootruben/todo-maker/releases)
 
 ToDo Maker is a webapp that lets you create your own task list! 
 
