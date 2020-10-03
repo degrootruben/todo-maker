@@ -14,34 +14,38 @@ document.addEventListener("DOMContentLoaded", () => {
     // Load tasks into DOM upon loading page
     getTasks();
     async function getTasks() {
-        const response = await fetch("api/v1/get-tasks");
-        const data = await response.json(); 
+        try {
+            const response = await fetch("api/v1/get-tasks");
+            const data = await response.json();
 
-        todoListDOM.innerHTML = "";
-        if (data.length > 0) {
-            console.log("Loading tasks into DOM");
-
-            data.forEach(task => {
-                const li = document.createElement("li");
-                const taskName = document.createElement("span");
-                const deleteButton = document.createElement("span");
+            todoListDOM.innerHTML = "";
+            if (data.length > 0) {
+                console.log("Loading tasks into DOM");
     
-                taskName.classList.add("name");
-                taskName.setAttribute("dbID", task._id);
-                deleteButton.classList.add("delete");
-    
-                taskName.textContent = task.taskName;
-                deleteButton.textContent = "Delete";
-    
-                li.appendChild(taskName);
-                li.appendChild(deleteButton);
-    
-                todoListDOM.appendChild(li);
-            })
+                data.forEach(task => {
+                    const li = document.createElement("li");
+                    const taskName = document.createElement("span");
+                    const deleteButton = document.createElement("span");
+        
+                    taskName.classList.add("name");
+                    taskName.setAttribute("dbID", task._id);
+                    deleteButton.classList.add("delete");
+        
+                    taskName.textContent = task.taskName;
+                    deleteButton.textContent = "Delete";
+        
+                    li.appendChild(taskName);
+                    li.appendChild(deleteButton);
+        
+                    todoListDOM.appendChild(li);
+                })
+            }
+        } catch(err) {
+            console.log(err);
         }
     }
     
-    // Add tasks to database when form is submitted
+    // Post tasks to server when form is submitted
     const addForm = document.forms["add-task"];
     const nameField = addForm.querySelector("input[type='text']");
     const placeholder = nameField.getAttribute("placeholder");
@@ -51,29 +55,33 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log(placeholder);
 
         if (nameField.value != "") {
-            e.preventDefault();
-            nameField.setAttribute("placeholder", placeholder);
-            
-            console.log(`Trying to post task "${nameField.value}" to server`);
-            
-            // Get UserID
-            const userIDResponse = await fetch("/api/v1/get-userid", { method: "GET", headers: { "Content-Type": "application/json" } });
-            const userID = await userIDResponse.json();
+            try {
+                e.preventDefault();
+                nameField.setAttribute("placeholder", placeholder);
+                
+                console.log(`Trying to post task "${nameField.value}" to server`);
+                
+                // Get UserID
+                const userIDResponse = await fetch("/api/v1/get-userid", { method: "GET", headers: { "Content-Type": "application/json" } });
+                const userID = await userIDResponse.json();
 
-            const data = { "taskName": nameField.value, "userID": userID };
+                const data = { "taskName": nameField.value, "userID": userID };
 
-            await fetch("/api/v1/create-task", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(data)
-            }).then(res => {
-                getTasks();
-                return res;
-            }).catch(err => console.log("Error while posting task to server", err));
-            
-            nameField.value = "";
+                await fetch("/api/v1/create-task", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(data)
+                }).then(res => {
+                    getTasks();
+                    return res;
+                }).catch(err => console.log("Error while posting task to server", err));
+                
+                nameField.value = "";
+            } catch (err) {
+                console.log(err);
+            }
         } else {
             console.log("Namefield is empty, please enter a task name");
 
