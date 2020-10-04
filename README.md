@@ -13,7 +13,7 @@ ToDo Maker is a project I am working on to learn the basics of Node.js, Express,
 ## Using ToDo Maker 
 ⛔ These instructions should work for the `1.0.0-alpha.0` version. For future versions these instructions might not work.
 ### Creating an account
-When you have the project running by using step 4 of [Installing ToDo Maker](#Installing ToDo Maker) you should be able to use ToDo Maker by going to http://localhost:8000 in your browser. You should now see the home page. Now you can create an account to make tasks. To create an account you click on "Sign up". In here you have to fill in your email, and a new password for ToDo Maker. When submitting your new account details by clicking the "Sign up" button or by pressing ENTER you should be redirected to the tasks page. 
+When you have the project running by using step 4 of [Installing ToDo Maker](#Installing-ToDo-Maker) you should be able to use ToDo Maker by going to http://localhost:8000 in your browser. You should now see the home page. Now you can create an account to make tasks. To create an account you click on "Sign up". In here you have to fill in your email, and a new password for ToDo Maker. When submitting your new account details by clicking the "Sign up" button or by pressing ENTER you should be redirected to the tasks page. 
 
 ### Adding a task
 In the task page you can create tasks by filling in your task name in the "Add a task..." field. When you press ENTER or the "Add" button the task is created and should appear on your task list.
